@@ -1,142 +1,61 @@
-import React from 'react'
-import { Card } from '../ui/card'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
+"use client"
+import React, { useState } from 'react';
+import { Card } from '../ui/card';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
-export default function OrderProducts() {
+export default function OrderProducts({ dishes, quantities, setQuantities }: any) {
+  const increaseQuantity = (id: string) => {
+    setQuantities((prevQuantities: any) => ({
+      ...prevQuantities,
+      [id]: (prevQuantities[id] || 0) + 1,
+    }));
+  };
+
+  const decreaseQuantity = (id: string) => {
+    if (quantities[id] > 0) {
+      setQuantities((prevQuantities: any) => ({
+        ...prevQuantities,
+        [id]: prevQuantities[id] - 1,
+      }));
+    }
+  };
+
   return (
-    <div className="grid grid-cols-4 gap-2 mt-8 ">
-    <Card className="w-[100%] border-[1px]  dark:border-gray-700 h-[14.5rem]">
-<div className="flex overflow-hidden rounded-lg cursor-pointer p-1">
-  <img
-    alt="Product"
-    className="object-cover  rounded-md"
-    src="/chicken-1.avif"
-    style={{
-      objectFit: "cover",
-    }}
-  />
-</div>
-<div className="grid gap-1 p-2 ">
-  <p className="text-xs font-medium dark:text-gray-300 text-gray-500">Women's</p>
-  <h2 className="text-sm font-bold tracking-tight">Crewneck Sweatshirt</h2>
-  <div className="flex flex-row-reverse justify-between items-center gap-2">
-    <div className="flex justify-center items-center space-x-2 mt-2">
-    <Button variant="link" className="font-bold rounded-full w-8 h-8 dark:bg-gray-900 bg-gray-100">
-        -
-      </Button>
-      <p className='font-medium text-xs'>0</p>
-<Button variant="destructive" className="bg-[#159a97] rounded-full w-8 h-8  font-bold">
-        +
-      </Button>
-
-    </div> 
-   <div>
-    <h2 className='font-bold dark:text-white text-gray-900 text-sm  dm'>$6.00</h2>
-   </div>
-  </div>
-</div>
-    </Card> 
-    <Card className="w-[100%] border-[1px]   dark:border-gray-700h-[14.5rem]">
-<div className="flex overflow-hidden rounded-lg cursor-pointer p-1">
-  <img
-    alt="Product"
-    className="object-cover rounded-md"
-    src="/chicken-1.avif"
-    style={{
-      objectFit: "cover",
-    }}
-  />
-</div>
-<div className="grid gap-1 p-2 ">
-  <p className="text-xs font-medium dark:text-gray-300 text-gray-500">Women's</p>
-  <h2 className="text-sm font-bold tracking-tight">Crewneck Sweatshirt</h2>
-  <div className="flex flex-row-reverse justify-between items-center gap-2">
-    <div className="flex justify-center items-center space-x-2 mt-2">
-    <Button variant="link" className="font-bold rounded-full w-8 h-8 dark:bg-gray-900 bg-gray-100">
-        -
-      </Button>
-      <p className='font-medium text-xs'>0</p>
-<Button variant="destructive" className="bg-[#159a97] rounded-full w-8 h-8  font-bold">
-        +
-      </Button>
-
-    </div> 
-   <div>
-    <h2 className='font-bold dark:text-white text-gray-900 text-sm  dm'>$6.00</h2>
-   </div>
-  </div>
-</div>
-    </Card> 
-    <Card className="w-[100%] border-[1px]   dark:border-gray-700 h-[14.5rem]">
-<div className="flex overflow-hidden rounded-lg cursor-pointer p-1">
-  <img
-    alt="Product"
-    className="object-cover rounded-md"
-    src="/chicken-1.avif"
-    style={{
-      objectFit: "cover",
-    }}
-  />
-</div>
-<div className="grid gap-1 p-2 ">
-  <p className="text-xs font-medium dark:text-gray-300 text-gray-500">Women's</p>
-  <h2 className="text-sm font-bold tracking-tight">Crewneck Sweatshirt</h2>
-  <div className="flex flex-row-reverse justify-between items-center gap-2">
-    <div className="flex justify-center items-center space-x-2 mt-2">
-    <Button variant="link" className="font-bold rounded-full w-8 h-8 dark:bg-gray-900 bg-gray-100">
-        -
-      </Button>
-      <p className='font-medium text-xs'>0</p>
-<Button variant="destructive" className="bg-[#159a97] rounded-full w-8 h-8  font-bold">
-        +
-      </Button>
-
-    </div> 
-   <div>
-    <h2 className='font-bold dark:text-white text-gray-900 text-sm  dm'>$6.00</h2>
-   </div>
-  </div>
-</div>
-    </Card> 
-    <Card className="w-[100%] border-[2px]  border-[#b3dfe0] h-[14.5rem]">
-<div className="flex overflow-hidden rounded-lg cursor-pointer p-1">
-  <img
-    alt="Product"
-    className="object-cover rounded-md"
-    src="/chicken-1.avif"
-    style={{
-      objectFit: "cover",
-    }}
-  />
-</div>
-<div className="grid gap-1 p-2 ">
-  <p className="text-xs font-medium dark:text-gray-300 text-gray-500">Women's</p>
-  <h2 className="text-sm font-bold tracking-tight">Crewneck Sweatshirt</h2>
-  <div className="flex flex-row-reverse justify-between items-center gap-2">
-    <div className="flex justify-center items-center space-x-2 mt-2">
-    <Button variant="link" className="font-bold rounded-full w-8 h-8 dark:bg-gray-900 bg-gray-100">
-        -
-      </Button>
-      <p className='font-medium text-xs'>0</p>
-<Button variant="destructive" className="bg-[#159a97] rounded-full w-8 h-8  font-bold">
-        +
-      </Button>
-
-    </div> 
-   <div>
-    <h2 className='font-bold dark:text-white text-gray-900 text-sm  dm'>$6.00</h2>
-   </div>
-  </div>
-</div>
-    </Card> 
-
-  
-   
-    
-     
+    <div className="grid grid-cols-4 gap-4 mt-8">
+      {dishes.map((dish: any) => (
+        <Card key={dish.id} className="w-full border-[1px] dark:border-gray-700">
+          <div className="flex overflow-hidden rounded-lg cursor-pointer p-1">
+            <img alt={dish.title} className="object-cover rounded-md w-full h-28" src={dish.images[0]} />
+          </div>
+          <div className="grid gap-1 p-2">
+            <p className="text-xs font-medium dark:text-gray-300 text-gray-500">{dish.subtitle}</p>
+            <h2 className="text-sm font-bold tracking-tight">{dish.title}</h2>
+            <div className="flex flex-row-reverse justify-between items-center gap-2 mt-2">
+              <div className="flex justify-center items-center space-x-2">
+                <Button
+                  variant="link"
+                  className="font-bold rounded-full w-8 h-8 dark:bg-gray-900 bg-gray-100"
+                  onClick={() => decreaseQuantity(dish.id)}
+                >
+                  -
+                </Button>
+                <p className="font-medium text-xs">{quantities[dish.id] || 0}</p>
+                <Button
+                  variant="destructive"
+                  className="bg-[#159a97] rounded-full w-8 h-8 font-bold"
+                  onClick={() => increaseQuantity(dish.id)}
+                >
+                  +
+                </Button>
+              </div>
+              <div>
+                <h2 className="font-bold dark:text-white text-gray-900 text-sm dm">${dish.amount}</h2>
+              </div>
+            </div>
+          </div>
+        </Card>
+      ))}
     </div>
-  )
+  );
 }
- 
-

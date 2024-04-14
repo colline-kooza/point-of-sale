@@ -10,16 +10,16 @@ export function MainNav() {
   const pathname = usePathname()
 
   return (
-    <div className="mr-4 hidden md:flex">
+    <div className="mr-4 hidden md:flex ">
       <Link href="/" className="mr-6 flex items-center space-x-2">
     {/* <img src="/dcsLogo.webp" alt="" className="h-12 w-20"/>  */}
         <span className="hidden font-bold sm:inline-block">
-         Desishub
+        Tasty POS
         </span>
       </Link>
-      <nav className="flex items-center gap-6 text-sm">
+      <nav className="flex items-center gap-6 text-sm ">
         <Link
-          href="/resources"
+          href="/"
           className={cn(
             "transition-colors hover:text-foreground/80",
             pathname === "/Features" ? "text-foreground" : "text-foreground/60 text-foreground"
@@ -29,7 +29,7 @@ export function MainNav() {
         </Link>
 
         <Link
-          href="/Products"
+          href="/"
           className={cn(
             "transition-colors hover:text-foreground/80",
             pathname?.startsWith("/Products")
@@ -41,15 +41,15 @@ export function MainNav() {
         </Link>
 
         <Link
-          href="/gallery"
+          href="/contact"
           className={cn(
-            "transition-colors hover:text-foreground/80",
-            pathname?.startsWith("/About")
+            "transition-colors  hover:text-foreground/80",
+            pathname?.startsWith("/contact")
               ? "text-foreground"
-              : "text-foreground/60 text-foreground"
+              : "text-foreground/60 text-foreground "
           )}
         >
-        About
+        Contact
         </Link>
 {/* 
         <Link

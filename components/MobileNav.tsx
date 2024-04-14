@@ -62,7 +62,7 @@ export function MobileNav() {
           <span className="font-bold">Desishub</span>
         </MobileLink>
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-1">
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-3 dark:text-white text-black">
             {docsConfig.mainNav?.map(
               (item:any) =>
                 item.href && (

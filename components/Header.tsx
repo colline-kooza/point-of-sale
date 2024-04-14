@@ -11,12 +11,12 @@ import { ModeToggle } from "./ModleToggle"
 
 export default function Header() {
   const pathName = usePathname()
-  if (pathName == "/dashboard" || pathName=="/dashboard/order-line" || pathName=="/dashboard/manage-dishes" || pathName=="/dashboard/customers" || pathName=="/dashboard/manage-table"){
+  if (pathName == "/dashboard" || pathName=="/dashboard/order-line" || pathName=="/dashboard/manage-dishes" || pathName=="/dashboard/customers" || pathName=="/dashboard/manage-table" || pathName=="/dashboard/category-dish/new" || pathName=="/dashboard/dish/new" || pathName=="/dashboard/table-new"){
     return null
   }
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-border/0 bg-background/40 backdrop-blur supports-[backdrop-filter]:bg-background/10">
-      <div className="container flex h-14 max-w-screen-2xl items-center ">
+    <header className="fixed top-0 z-50 w-full border-b border-border/0 bg-background/40 backdrop-blur supports-[backdrop-filter]:bg-background/10 mb-5">
+      <div className="container flex h-14 max-w-screen-2xl items-center">
       <div>
       <MainNav />
         <MobileNav />

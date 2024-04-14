@@ -4,36 +4,34 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="flex flex-col min-h-[100dvh]">
-      <main className="flex-1">
-      <section className="relative w-full py-12 md:py-24 lg:py-32 xl:py-40 overflow-hidden">
-  {/* Background Image with Gradient Overlay */}
-  <div className="absolute inset-0 bg-gradient-to-r from-gray-800 to-transparent pointer-events-none"></div>
-  <div className="absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: "url('pos-5.jpg')", opacity: "0.3" }}></div>
+    <div className="flex flex-col min-h-[100dvh] ">
+      <main className="flex-1 ">
+      <section className="relative w-full py-28 md:py-24 lg:py-32  xl:py-40 overflow-hidden bg-3">
+  {/* <div className="absolute inset-0 bg-gradient-to-r from-gray-800 to-transparent pointer-events-none"></div> */}
+  {/* <div className="absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: "url('pos-5.jpg')", opacity: "0.3" }}></div> */}
   
-  {/* Content */}
   <div className="container relative z-10 px-4 md:px-6">
     <div className="flex flex-col items-center space-y-4 text-center">
       <div className="space-y-5">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-gray-900 dark:text-white ">
-          Streamline Your Sales Process
+        <h1 className="text-3xl leading-9 font-black tracking-normal sm:text-4xl md:text-5xl lg:text-6xl/none text-gray-900 dark:text-white lg:w-[1000px]">
+        The most comprehensive Sales Management Platform
         </h1>
-        <p className="mx-auto max-w-[700px] text-slate-800 md:text-lg dark:text-gray-200">
+        <p className="mx-auto max-w-[800px] font-medium dark:font-medium text-gray-800 md:text-lg dark:text-gray-200 text-sm">
           Efficient tools and customizable components for managing your sales seamlessly. Improve customer experiences and boost sales performance.
         </p>
       </div>
       <div className="space-x-5">
         <Link
           className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-8 py-4 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-          href="#"
+          href="/contact"
         >
           Get Started
         </Link>
         <Link
           className="inline-flex h-9 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 py-5 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-          href="#"
+          href="/dashboard"
         >
-          Learn More
+         Demo Account
         </Link>
       </div>
     </div>
@@ -41,11 +39,9 @@ export default function Page() {
 </section>
 
 
-        <section className="w-full py-12  bg-gray-100 dark:bg-gray-950 px-[6rem]">
+        <section className="w-full lg:py-12  py-8 bg-gray-50 dark:bg-gray-950 lg:px-[6rem] ">
           <div className="container px-4 md:px-6">
-            <div className="grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
-           
-
+            <div className="grid items-center gap-6 grid-cols-1 lg:grid-cols-[1fr_500px] lg:gap-12  xl:grid-cols-[1fr_550px] px-2">
               <img
                 alt="Point of Sale Illustration"
                 className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
@@ -53,7 +49,7 @@ export default function Page() {
                 src="/pos-2.jpg"
                 width="550"
               />
-              <div className="flex flex-col justify-center space-y-10">
+              <div className="flex flex-col justify-center space-y-10 ">
                 <div className="space-y-6">
                   <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
                     Efficiency
@@ -88,11 +84,11 @@ export default function Page() {
 
 
         
-        <div className="w-full dark:bg-gray-950 bg-gray-50 py-20 ">
+        <div className="w-full dark:bg-gray-950 bg-gray-200 py-20  bg">
       <div className="container grid items-center gap-10 px-4 text-center md:px-6">
         <div className="space-y-3">
-          <h2 className="text-3xl font-bold tracking-wider sm:text-4xl md:text-4xl">Choose the perfect plan</h2>
-          <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-sm/relaxed dark:text-gray-400">
+          <h2 className="text-3xl font-bold tracking-normal lg:tracking-normal sm:text-4xl md:text-4xl">Choose perfect plan</h2>
+          <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed text-xs xl:text-sm/relaxed dark:text-gray-400">
             Start with a 14-day free trial. No credit card required.
           </p>
         </div>

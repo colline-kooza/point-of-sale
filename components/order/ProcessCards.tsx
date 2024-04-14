@@ -9,7 +9,7 @@ import Link from 'next/link'
 export default function ProcessCards() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 dm">
-    <Link href=""  className="flex items-center justify-between bg-[#c1eae4] rounded-md shadow-sm p-4 dark:text-black">
+    <Link href="/dashboard/manage-table"  className="flex items-center justify-between bg-[#c1eae4] rounded-md shadow-sm p-4 dark:text-black">
       <div className="flex items-center space-x-4">
         <div className="space-y-1">
           <p className="text-sm font-medium">Order #F0027</p>
@@ -24,7 +24,7 @@ export default function ProcessCards() {
         </Link>
       </div>
     </Link>
-    <Link href=""  className="flex items-center justify-between bg-[#ffe2de] rounded-md shadow-sm p-4 dark:text-black">
+    <Link href="/dashboard/manage-table"  className="flex items-center justify-between bg-[#ffe2de] rounded-md shadow-sm p-4 dark:text-black">
       <div className="flex items-center space-x-4">
         <div className="space-y-1">
           <p className="text-sm font-medium">Order #F0027</p>
@@ -39,7 +39,7 @@ export default function ProcessCards() {
         </Link>
       </div>
     </Link> 
-    <Link href="" className="flex items-center justify-between bg-[#e8d4ed] rounded-md shadow-sm p-4 dark:text-black">
+    <Link href="/dashboard/manage-table" className="flex items-center justify-between bg-[#e8d4ed] rounded-md shadow-sm p-4 dark:text-black">
       <div className="flex items-center space-x-4 ">
         <div className="space-y-1">
           <p className="text-sm font-medium ">Order #F0027</p>

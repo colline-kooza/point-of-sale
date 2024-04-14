@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Button } from '../ui/button'
@@ -5,6 +6,7 @@ import { Bell, CircleUser, Search } from 'lucide-react'
 import { Input } from '../ui/input'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { ModeToggle } from '../ModleToggle'
+import { signOut } from 'next-auth/react'
 
 export default function DashboardHeader() {
   return (
@@ -37,7 +39,12 @@ export default function DashboardHeader() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem   onSelect={(event) => {
+                event.preventDefault();
+                signOut({
+                  callbackUrl:"/register",
+                });
+              }}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu> 
           <div className='flex flex-col'>
