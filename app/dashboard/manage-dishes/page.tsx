@@ -131,7 +131,7 @@ export default async function Page() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ">
               <DeleteCategory id={cat.id}/>
                  <Badge className="lg:ml-auto md:ml-auto ml-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                  {itemsCount} 

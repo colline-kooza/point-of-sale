@@ -42,7 +42,7 @@ export default function DeleteDish({ id }: { id: string }) {
   };
 
   return (
-    <button onClick={handleDelete} className=" block md:block text-red-500">
+    <button disabled onClick={handleDelete} className=" block md:block text-red-500">
       Delete
     </button>
   );

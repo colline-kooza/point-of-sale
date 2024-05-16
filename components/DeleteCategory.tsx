@@ -41,7 +41,7 @@ export default function DeleteCategory({ id }: { id: string }) {
   };
 
   return (
-    <button onClick={handleDelete} className="hidden lg:block md:block">
+    <button disabled onClick={handleDelete} className="hidden lg:block md:block">
       <Trash2 size={18} className="text-xs text-red-600" />
     </button>
   );
