@@ -119,7 +119,7 @@ export default async function Page() {
         categories?.map((cat)=>{
           const itemsCount = calculateItemsCount(dishes, cat.id);
           return(
-            <div className="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 cursor-pointer" role="alert">
+            <div key={cat.id} className="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 cursor-pointer" role="alert">
             <div className="flex px-4 py-2 items-center justify-between">
            <div className="flex gap-1 items-center ">
            <div className="flex-shrink-0 ">

@@ -177,9 +177,9 @@ export default function CheckOutBar({ quantities, dishes ,tables , orders}: { qu
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-slate-600 dark:bg-black text-white dark:text-white w-[130px] font-semibold rounded-sm text-sm px-4 py-2 cursor-pointer" align="end">
                     {
-                        tables.map((table:any)=>{
+                        tables.map((table:any , i:any)=>{
                             return(
-                                <DropdownMenuItem onClick={() => handleTableSelect(table.tableNumber)}>No: {table.tableNumber}</DropdownMenuItem>
+                                <DropdownMenuItem key={i} onClick={() => handleTableSelect(table.tableNumber)}>No: {table.tableNumber}</DropdownMenuItem>
                             )
                         })
                     }

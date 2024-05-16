@@ -175,9 +175,9 @@
                   </CardHeader>
                 <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 py-2 px-3'>
               {
-               justNowFiltered?.map((order:any)=>{
+               justNowFiltered?.map((order:any ,i:any)=>{
                   return(
-                    <Card className='bg-[#ffe2deaf]'>
+                    <Card key={i} className='bg-[#ffe2deaf]'>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium dark:text-orange-700">
                     Table :  {order.tableNumber}
@@ -269,7 +269,7 @@
               {
               inKitchenFiltered ?.map((order:any)=>{
                   return(
-                    <Card className='bg-[#4feed78b]'>
+                    <Card key={order.id} className='bg-[#4feed78b]'>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium">
                       {order.tableNumber}
@@ -357,7 +357,7 @@
               {
                 waitListFiltered?.map((order:any)=>{
                   return(
-                    <Card className='bg-[#d5490d8e]'>
+                    <Card key={order.id} className='bg-[#d5490d8e]'>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium">
                       {order.tableNumber}
@@ -445,7 +445,7 @@
               {
                readyFiltered?.map((order:any)=>{
                   return(
-                    <Card className='bg-[#db9aeb7e]'>
+                    <Card key={order.id} className='bg-[#db9aeb7e]'>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium">
                       {order.tableNumber}
@@ -533,7 +533,7 @@
               {
               servedFiltered?.map((order:any)=>{
                   return(
-                    <Card className='bg-[#58bab883]'>
+                    <Card key={order.id} className='bg-[#58bab883]'>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium">
                       {order.tableNumber}
