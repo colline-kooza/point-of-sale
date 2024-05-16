@@ -30,16 +30,6 @@ export default function Login({ users }: any) {
     try {
       setIsLoading(true);
   
-      const user = users.find((s: any) => s.email === data.email);
-  
-      if (!user || !user.emailVerified) {
-        setIsLoading(false);
-        toast({
-          description: 'Account not found or email not verified.',
-        });
-        return;
-      }
-  
       const response = await signIn('credentials', {
         // email: data.email,
         password: data.password,
