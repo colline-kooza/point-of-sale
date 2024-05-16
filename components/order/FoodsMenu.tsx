@@ -29,7 +29,7 @@ console.log(totalDishes)
           alt="Sneakers"
           className="rounded-lg overflow-hidden"
           height={40}
-          src="/chicken-1.avif"
+          src="/all.jpg"
           style={{
             aspectRatio: "40/40",
             objectFit: "cover",
