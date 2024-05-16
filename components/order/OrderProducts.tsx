@@ -3,13 +3,21 @@ import React, { useState } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { toast } from '../ui/use-toast';
+import { ToastAction } from '../ui/toast';
 
 export default function OrderProducts({ dishes, quantities, setQuantities }: any) {
   const increaseQuantity = (id: string) => {
+    toast({
+      title: "Item added successful",
+      description: "Item was successfully added.",
+      action: <ToastAction altText="Close">close</ToastAction>,
+  });
     setQuantities((prevQuantities: any) => ({
       ...prevQuantities,
       [id]: (prevQuantities[id] || 0) + 1,
     }));
+   
   };
 
   const decreaseQuantity = (id: string) => {
@@ -18,7 +26,14 @@ export default function OrderProducts({ dishes, quantities, setQuantities }: any
         ...prevQuantities,
         [id]: prevQuantities[id] - 1,
       }));
+      toast({
+        variant: "destructive",
+        title: "Item has been reduced quantity",
+        description: "The current item has been reduced.",
+        action: <ToastAction altText="Close">close</ToastAction>,
+    });
     }
+
   };
 
   return (

@@ -141,7 +141,7 @@ export default function CheckOutBar({ quantities, dishes ,tables , orders}: { qu
         } catch (error) {
             toast({
                 variant: "destructive",
-                title: "Uh oh! Failed to create Order.",
+                title: "Uh oh! Failed to create Order at the moment.",
                 description: "There was a problem with your order.",
                 action: <ToastAction altText="Try again">Try again later</ToastAction>,
             });

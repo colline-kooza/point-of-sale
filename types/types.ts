@@ -19,6 +19,16 @@ export type DishProps = {
     email: string;
     password: string;
 };
+// types.ts or a similar file
+export interface Order {
+  id: string;
+  orderId: string;
+  status: string;
+  createdAt: string | Date;
+  total: number;
+  dishName: string;
+  paymentMethod: string;
+}
 
 export type LoginProps={
   email  :    String

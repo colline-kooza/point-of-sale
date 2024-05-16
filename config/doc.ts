@@ -5,13 +5,13 @@ interface DocsConfig {
   
   export const docsConfig: DocsConfig = {
     mainNav: [
-      {
-        title: "Features",
-        href: "/features",
-      },
+      // {
+      //   title: "Features",
+      //   href: "/features",
+      // },
       {
         title: "Products",
-        href: "/products",
+        href: "/",
       },
       {
         title: "Contact",
