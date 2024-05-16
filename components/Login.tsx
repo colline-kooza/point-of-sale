@@ -48,13 +48,14 @@ export default function Login({ users }: any) {
       if (response?.error) {
         throw new Error(response.error);
       }
-  
-      setIsLoading(false);
+    if(response?.ok){
+        setIsLoading(false);
       toast({
         description: 'Successfully Logged In',
       });
-      router.push('/dashboard');
-      window.location.reload()
+      router.push('/dashboard/order-line');
+    }
+  
     } catch (error) {
       setIsLoading(false);
       console.error(error);

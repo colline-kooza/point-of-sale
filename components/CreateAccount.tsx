@@ -49,7 +49,7 @@ export function CardsCreateAccount() {
       toast({
         description: "We have sent A verification Code to your Email",
       });
-      router.push(`/verify-account/${newUserData.verifiactionToken}`);
+      router.push(`/verify-account/${newUserData.id}`);
     } catch (error) {
       setIsLoading(false);
       toast({

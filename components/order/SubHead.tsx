@@ -1,11 +1,12 @@
 import React from 'react'
 import { Card, CardContent } from '../ui/card'
+import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 
 export default function SubHead() {
   return (
-    <div className="flex w-full py-3 ">
-      <div className="flex gap-2 w-[90%]  h-[7vh]">
-      <div className='w-[90px] cursor-pointer flex justify-center items-center px-2 rounded-3xl border-[#58bab9] border-[2px]'>
+    <ScrollArea  className="flex w-full py-3">
+      <div className="flex md:gap-5 gap-2 lg:w-[90%] w-full h-[7vh]">
+      <div className='lg:w-[90px] md:w-[130px] w-[120px] cursor-pointer flex justify-center items-center px-2 md:rounded-[2.5rem] rounded-3xl lg:rounded-3xl border-[#58bab9] border-[2px]'>
         <div className='flex items-center gap-1'>
             <h2 className='font-bold text-xs'>All</h2>
             <p className='text-xs text-white bg-[#58bab9] py-1 px-1.5 rounded-full flex items-center justify-center'>28</p>
@@ -42,8 +43,8 @@ export default function SubHead() {
         </div>
       </div>
       
-     
       </div>
-    </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   )
 }

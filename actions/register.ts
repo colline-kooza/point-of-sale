@@ -21,10 +21,9 @@ export async function saveData(data: UserProps) {
         if (existingUser) {
             throw new Error("User with this email already exists");
         }
-        const randomToken = Math.floor(1000 + Math.random() * 9000);
-        // Convert the number to a string
+        const randomToken = Math.floor(100000 + Math.random() * 900000);
         const token = randomToken.toString();
-        // console.log(token)
+        // Convert the number to a string
 
 
         const rawToken = uuidv4();
@@ -46,7 +45,7 @@ export async function saveData(data: UserProps) {
             verifiactionToken :tokenUrl 
         },
     });
-    console.log(newUser)
+    // console.log(newUser)
  
         return newUser; 
     } catch (error) {
@@ -66,7 +65,19 @@ export async function getUsers(){
 
 
 
-
+export async function getUserById(id: string) {
+    try {
+        const user = await db.user.findUnique({
+            where: { id },
+        });
+        if (!user) {
+            throw new Error("User not found");
+        }
+        return user;
+    } catch (error) {
+        console.error("Error fetching user:", error);
+    }
+}
 
 
 

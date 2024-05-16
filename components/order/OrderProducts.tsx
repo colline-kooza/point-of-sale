@@ -22,7 +22,7 @@ export default function OrderProducts({ dishes, quantities, setQuantities }: any
   };
 
   return (
-    <div className="grid grid-cols-4 gap-4 mt-8">
+    <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 mt-8">
       {dishes.map((dish: any) => (
         <Card key={dish.id} className="w-full border-[1px] dark:border-gray-700">
           <div className="flex overflow-hidden rounded-lg cursor-pointer p-1">

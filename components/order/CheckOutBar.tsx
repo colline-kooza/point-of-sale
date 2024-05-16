@@ -4,11 +4,22 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from '@/components/ui/separator'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { CircleChevronDown, Coins, Copy, CreditCard, MoreVertical, Mouse, Printer, Scan } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from '../ui/use-toast'
 import { ToastAction } from '../ui/toast'
 import { PiSpinner } from 'react-icons/pi'
-
+import Receipt from '../Receipt'
+import { useReactToPrint } from 'react-to-print';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
+import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 interface Dish {
     id: string;
     title: string;
@@ -22,12 +33,21 @@ interface Dish {
     categoryId: string;
 }
 
-export default function CheckOutBar({ quantities, dishes ,tables}: { quantities: Record<string, number>; dishes: Dish[];tables:any }) {
+export default function CheckOutBar({ quantities, dishes ,tables , orders}: { quantities: Record<string, number>; dishes: Dish[];tables:any  ,orders:any}) {
     const [orderID, setOrderID] = useState<string>(''); 
+    const [receiptId, setReceiptId] = useState<string | undefined>();
+    // console.log(receiptId)
     const [loading, setLoading] = useState(false);
     const [selectedTable, setSelectedTable] = useState<string>(tables.length > 0 ? tables[0].tableNumber : 'Table 001');
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('Cash');
-
+    const [orderPlaced, setOrderPlaced] = useState<boolean>(false);
+    const invoiceRef = useRef<HTMLDivElement | null>(null);
+    const handlePrintReceipt = useReactToPrint({
+        content: () => invoiceRef.current,
+    });
+  function clearOrder(){
+    window.location.reload()
+  }
     useEffect(() => {
         const generatedOrderID = generateOrderID();
         setOrderID(generatedOrderID);
@@ -36,7 +56,6 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
             setOrderID('');
         };
     }, []);
-
     const calculateTotal = () => {
         let total = 0;
         Object.keys(quantities).forEach(id => {
@@ -48,11 +67,9 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
         });
         return total.toFixed(2);
     };
-
     const generateOrderID = () => {
         return `O${Math.random().toString(36).substr(2, 9)}H`;
     };
-
     const countOrderItems = () => {
         let itemCount = 0;
         Object.values(quantities).forEach((qty) => {
@@ -60,8 +77,6 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
         });
         return itemCount;
     };
-
- 
     async function makeOrder() {
         const items = Object.keys(quantities).map(id => {
             const quantity = quantities[id];
@@ -93,7 +108,7 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
             paymentMethod: selectedPaymentMethod,
             tableNo: selectedTable,
         };
-        console.log(saleData)
+   
         try {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
             setLoading(true);
@@ -112,6 +127,8 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
                     action: <ToastAction altText="Make Other">close</ToastAction>,
                 });
                 setLoading(false)
+                setOrderPlaced(true);
+                // console.log(saleData)
             } else {
                 toast({
                     variant: "destructive",
@@ -126,15 +143,16 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
                 variant: "destructive",
                 title: "Uh oh! Failed to create Order.",
                 description: "There was a problem with your order.",
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
+                action: <ToastAction altText="Try again">Try again later</ToastAction>,
             });
             setLoading(false)
         } finally {
             setLoading(false);
         }
+
+        setReceiptId(saleData.orderId)
+
     }
-    
-    
     function handleTableSelect(tableNumber: string) {
         setSelectedTable(tableNumber); 
     }
@@ -143,7 +161,8 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
     }
     return (
         <div>
-            <Card className="overflow-hidden border-none dark:shadow-2xl shadow-lg h-full">
+           
+            <Card className="overflow-hidden border-none dark:shadow-2xl shadow-lg h-full ">
                 <CardHeader className="flex flex-row items-start bg-muted/50 p-4">
                     <div className="grid gap-0.3">
                         <CardTitle className="group flex items-center gap-2 text-sm font-bold whitespace-nowrap">
@@ -179,9 +198,11 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="bg-slate-600 dark:bg-muted/50 text-white dark:text-white w-[80px] font-semibold rounded-sm text-sm px-4 py-2 cursor-pointer" align="end">
-                                <DropdownMenuItem >Edit</DropdownMenuItem>
+                                {/* <DropdownMenuItem >Edit</DropdownMenuItem> */}
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem className='text-red-500 mt-1'>Delete</DropdownMenuItem>
+                                <DropdownMenuItem className='text-white mt-1 text-sm'>
+                                <button onClick={()=>clearOrder()} >Clear</button>
+                               </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
@@ -231,7 +252,7 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
                     <Separator className="my-4" />
                     <div className="grid gap-3">
                         <div className="font-semibold">Payment Method</div>
-                        <dl className="grid gap-3 mt-3">
+                        <ScrollArea  className="grid gap-3 mt-3 ">
                             <div className="flex items-center gap-2">
                                 <Card className="flex font-semibold text-xs items-center px-5  py-2  gap-1 text-black dark:text-white cursor-pointer border-[#5db8b9]" onClick={() => handlePaymentSelect('Cash')}>
                                     <Coins className="h-4 w-4" />
@@ -247,25 +268,35 @@ export default function CheckOutBar({ quantities, dishes ,tables}: { quantities:
                                 </Card>
 
                             </div>
-                        </dl>
+                            <ScrollBar className='pt-9' orientation="horizontal" />
+                        </ScrollArea>
                     </div>
                 </CardContent>
                 <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
-                    <div className="text-xs text-muted-foreground  w-full pt-8 pb-2">
-                        <div className="hidden items-center gap-2  md:flex w-full ">
-                            <Button className='flex items-center gap-2 text-sm' variant="outline" size="sm">
-                                <Printer className="h-4 w-4" /> Print
-                            </Button>
+        <div className="text-xs text-muted-foreground  w-full lg:pt-8 pb-2">
+        <div className="items-center gap-2 flex w-full">
+     <Dialog>
+      <DialogTrigger asChild>
+      <Button onClick={handlePrintReceipt} type="button" disabled={!orderPlaced}>Print receipt</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[525px] bg-none">
+        <div className="" ref={invoiceRef}>
+        <Receipt ordersItems={orders} receiptId={receiptId}/>
+        </div>
+        <DialogFooter>
+          <Button  onClick={handlePrintReceipt} type="button">Print receipt</Button>
+        </DialogFooter>
+      </DialogContent>
+      </Dialog>
                            {
                             loading ? (
                                 <Button variant='outline' disabled={loading}  className="w-full flex gap-2 items-center bg-slate-950 text-white">
-                                <PiSpinner className="animate-spin"/>   Processing Order
-                                 </Button>
+                                <PiSpinner className="animate-spin"/>  Processing </Button>
                             ): (
                                 <Button className='w-full bg-[#1ba09d] dark:bg-white dark:hover:bg-black dark:hover:text-slate-100 flex gap-1 items-center' size="sm" onClick={()=>makeOrder()}>
                                 <Mouse className="h-4 w-4" />
                                 Place Order
-                            </Button>
+                             </Button>
                             )
                            }
                         </div>

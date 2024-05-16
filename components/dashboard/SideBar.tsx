@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/card"
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 
 export default function SideBar() {
@@ -74,7 +75,7 @@ export default function SideBar() {
            }`}
              >
              <BetweenVerticalEnd className="h-4 w-4" />
-              Manage Table
+              Manage Orders
              </Link>
 
 
@@ -107,10 +108,10 @@ export default function SideBar() {
 
 
 <Link
-  onClick={() => handleSetActive("/dashboard/customers")}
-  href="customers"
+  onClick={() => handleSetActive("/dashboard/customer")}
+  href="/dashboard"
   className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
-    pathName === "/dashboard/customers" ? "text-primary bg-muted" : ""
+    pathName === "/dashboard/customer" ? "text-primary bg-muted" : ""
   }`}
 >
   <UsersRound className="h-4 w-4" />
@@ -122,27 +123,35 @@ export default function SideBar() {
           <div className=" ">
           <nav className="grid items-start px-2 text-sm font-medium ">
            
-              <Link
+              {/* <Link
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <LifeBuoy className="h-4 w-4"/>
                Help Center
-              </Link>
+              </Link> */}
               <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              onClick={() => handleSetActive("/dashboard/settings")}
+                href="/dashboard/settings"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+              pathName === "/dashboard/settings" ? "text-primary bg-muted" : ""
+              }`}
               >
                <Settings className="h-4 w-4" /> 
                Settings
               </Link>
-              <Link
-                href="#"
+              <button
+              onSelect={(event) => {
+                event.preventDefault();
+                signOut({
+                  callbackUrl: "/register",
+                });
+              }}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
               <LogOut className="h-4 w-4" />
               Logout
-              </Link>
+              </button>
             </nav>
           </div>
         </div>

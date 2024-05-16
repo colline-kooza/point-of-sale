@@ -6,6 +6,9 @@ export const ourFileRouter = {
   categoryUploader: f({ image: { maxFileSize: "1MB" } }).onUploadComplete(
     async ({ metadata, file }) => {}
   ),
+  profileImage: f({ image: { maxFileSize: "1MB" } }).onUploadComplete(
+    async ({ metadata, file }) => {}
+  ),
   DishImages: f({
     image: { maxFileSize: "8MB", maxFileCount: 6 },
   }).onUploadComplete(async ({ metadata, file }) => {

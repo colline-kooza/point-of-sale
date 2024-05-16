@@ -14,6 +14,12 @@ export default function Header() {
   if (pathName == "/dashboard" || pathName=="/dashboard/order-line" || pathName=="/dashboard/manage-dishes" || pathName=="/dashboard/customers" || pathName=="/dashboard/manage-table" || pathName=="/dashboard/category-dish/new" || pathName=="/dashboard/dish/new" || pathName=="/dashboard/table-new"){
     return null
   }
+  if (pathName.startsWith("/dashboard")) {
+    return null
+  }
+  // if (pathName.startsWith("/contact")) {
+  //   return null
+  // }
   return (
     <header className="fixed top-0 z-50 w-full border-b border-border/0 bg-background/40 backdrop-blur supports-[backdrop-filter]:bg-background/10 mb-5">
       <div className="container flex h-14 max-w-screen-2xl items-center">

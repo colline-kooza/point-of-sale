@@ -1,141 +1,152 @@
-"use client"
-//   import getData from '@/utils/getData';
-  import Link from 'next/link';
-  import React, { useState } from 'react';
-  import { useForm } from 'react-hook-form';
-  import { toast } from './ui/use-toast';
-import { Button } from './ui/button';
-import { Icons } from './Icons';
-import getData from '@/lib/getData';
-import { getUsers } from '@/actions/register';
-  
-  export default function VerifyAccount({ verificationId }: any) {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const [loading, setLoading] = useState(false);
-  
-    const onSubmit = async (data: any) => {
-      try {
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+"use client";
 
-        setLoading(true); 
-        const user = await getUsers();
-        const verifiedUser=user?.find((user:any)=>user.verifiactionToken == verificationId )
-        // console.log(verifiedUser)
-        if (verifiedUser) {
-          if (verifiedUser.token === data.otp1 + data.otp2 + data.otp3 + data.otp4) {
-            const userId=verifiedUser.id
-            // console.log(userId)
-              setLoading(true);
-              const url = `${baseUrl}/api/updateVerified/${userId}` 
-              const method = 'PATCH';
-              const response = await fetch(url, {
-                method: method,
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userId), 
-              });
-              if(response.ok){
-                // console.log(response)
-                toast({
-                  description: "Email successfully Approved",
-                })
-                reset()
-                window.location.href = '/login';
-              }else(
-                toast({
-                  description: "something wrong happened",
-                })
-              )
-             
-          } else {
-            reset()
-            toast({
-              description: "Incorrect token. Please try again.",
-            });
-          }
-        } else {
-          toast({
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { HiInformationCircle } from "react-icons/hi";
+import { Alert } from "flowbite-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+// import toast from "react-hot-toast";
+import { Loader } from "lucide-react";
+// import { updateUserById } from "@/actions/users";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { toast } from "./ui/use-toast";
+import SubmitButton from "./SubmitButton";
+import { updateUserById } from "@/actions/contact";
+// import { updateUserById } from "@/actions/users";
+// import SubmitButton from "../FormInputs/SubmitButton";
+
+const FormSchema = z.object({
+  token: z.string().min(6, {
+    message: "Your Token must be 6 characters.",
+  }),
+});
+
+export default function VerifyAccount({
+  verificationId,
+  singleUser
+  // id,
+}: {
+  verificationId: string | undefined;
+  singleUser: any;
+}) {
+  const [loading, setLoading] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const router = useRouter();
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      token: "",
+    },
+  });
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setLoading(true);
+    const id = verificationId ?? "";
+    const userInputToken = parseInt(data.token);
+    const token=singleUser?.token
+    // console.log(token)
+    if (userInputToken == token) {
+      setShowNotification(false);
+      //Update User
+      try {
+        await updateUserById(id);
+        setLoading(false);
+        // reset();
+        // toast.success("Account Verified");
+        toast({
             
-            description: "Failed to verify the email",
-          });
-        }
+          description: "Account Verified",
+        });
+        router.push("/login");
       } catch (error) {
+        setLoading(false);
         console.log(error);
-      } finally {
-        setLoading(false); 
       }
-    };
-  
-    return (
-      <div className='mt-[6rem] h-screen'>
-        <div className="flex flex-col space-y-2 text-center mb-4">
-          <h2 className="text-3xl md:text-4xl font-bold">Confirm OTP</h2>
-          <p className="text-sm md:text-lg">
-            Enter the OTP we just sent you.
-          </p>
-        </div>
-        <div className="max-w-md mx-auto border max-w-sm rounded">
-          <form className="shadow-md px-4 py-6" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex justify-center gap-2 mb-6">
-              <input
-                className="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                type="number"
-                maxLength={1}
-                {...register('otp1', { required: true })}
-              />
-              <input
-                className="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                type="number"
-                maxLength={1}
-                {...register('otp2', { required: true })}
-              />
-              <input
-                className="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                type="number"
-                maxLength={1}
-                {...register('otp3', { required: true })}
-              />
-              <input
-                className="w-12 h-12 text-center border rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                type="number"
-                maxLength={1} 
-                {...register('otp4', { required: true })}
-              />
-            </div>
-            <div className="flex items-center justify-center">
-              {
-                loading ? (
-                  <Button variant="outline" type="submit" disabled={loading} className="w-full">
-                  <Icons.spinner className="m-2 h-4 w-4 animate-spin" />Verifying
-                </Button>
-                ):(
-                  <button
-                  className="bg-blue-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="submit"
-                >
-                verify
-                </button>
-                )
-              }
-             
-            {
-              loading ?(
-               ""
-              ):(
-                 <Link
-                className="inline-block align-baseline font-bold text-sm text-teal-500 hover:text-teal-800 ml-4"
-                href="#"
-              >
-                Resend OTP
-              </Link>
-              )
-            }
-            </div>
-            {errors.otp1 && <p className="text-red-500 text-xs text-center">Please enter all digits of the OTP.</p>}
-          </form>
-        </div>
-      </div>
-    );
+    } else {
+      setShowNotification(true);
+      setLoading(false);
+    }
+    console.log(userInputToken);
   }
+
+  return (
+    <div className="w-full h-screen lg:mt-[5rem] mt-[12rem] bg-1">
+      <div className="flex flex-col space-y-2 text-center mb-4">
+  <h2 className="text-3xl md:text-5xl font-bold">Confirm OTP</h2>
+  <p className="text-sm md:text-sm">
+    Enter the OTP we just sent you.
+  </p>
+ </div>
+ <div className="w-full flex flex-col items-center justify-center">
+  <div className="flex flex-col items-center justify-center w-[400px] ">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        {showNotification && (
+          <Alert color="failure" icon={HiInformationCircle}>
+            <span className="font-medium text-red-500">Wrong Token!</span> Please Check the
+            token and Enter again
+          </Alert>
+        )}
+        <FormField
+          control={form.control}
+          name="token"
+          render={({ field }) => (
+            <FormItem>
+              {/* <FormLabel>Enter Token Here</FormLabel> */}
+              <FormControl>
+                <InputOTP maxLength={6} {...field}>
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                  </InputOTPGroup>
+                  <InputOTPSeparator />
+                  <InputOTPGroup>
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                  </InputOTPGroup>
+                </InputOTP>
+              </FormControl>
+              {/* <FormDescription>
+                Please enter the 6-figure pass code sent to your email.
+              </FormDescription> */}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <SubmitButton
+          title="Submit to Verify"
+          isLoading={loading}
+          loadingTitle="Verifying please wait..."
+        />
+      </form>
+    </Form> 
+    </div>
+ </div>
   
+    </div>
+    
+  );
+}
+
+
+

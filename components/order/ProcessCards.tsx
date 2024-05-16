@@ -6,7 +6,7 @@ import { ChevronDownIcon, CircleIcon, PlusIcon, StarIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import Link from 'next/link'
 
-export default function ProcessCards() {
+export default function ProcessCards({orders}:any) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 dm">
     <Link href="/dashboard/manage-table"  className="flex items-center justify-between bg-[#c1eae4] rounded-md shadow-sm p-4 dark:text-black">

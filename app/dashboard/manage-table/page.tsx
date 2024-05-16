@@ -4,7 +4,7 @@ import React from 'react'
 
 export default async function page() {
   const orders =await getData("/order")
-  console.log(orders)
+  // console.log(orders)
   return (
     <div>
     <ManageOrders orders={orders}/>

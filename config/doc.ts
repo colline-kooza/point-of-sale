@@ -6,21 +6,18 @@ interface DocsConfig {
   export const docsConfig: DocsConfig = {
     mainNav: [
       {
-        title: "Gallery",
-        href: "/gallery",
+        title: "Features",
+        href: "/features",
       },
       {
-        title: "Dashboard",
-        href: "/dashboard",
+        title: "Products",
+        href: "/products",
       },
       {
-        title: "Attendance",
-        href: "/dashboard/attendence",
+        title: "Contact",
+        href: "/contact",
       },
-      {
-        title: "Announcements",
-        href: "/announcements",
-      },
+      
       // {
       //   title: "view-list",
       //   href: "/announcements",

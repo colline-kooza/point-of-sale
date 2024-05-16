@@ -29,7 +29,7 @@ import { UploadButton } from "@/lib/uploadthing"
 import { useState } from "react"
 import { toast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
-import { saveCategory } from "@/actions/category"
+import { saveCategory, updateCategory } from "@/actions/category"
 import { useRouter } from "next/navigation"
 
 
@@ -37,9 +37,9 @@ type Inputs = {
   title: string
   description: string
 }
-export default function Page({initialData}:any) {
-  const [image, setImage] = useState("/placeholder.svg");
-  // console.log(i)
+export default function CategoryForm({initialData}:any) {
+  const [image, setImage] = useState(initialData ? initialData.image : "/placeholder.svg");
+    // console.log(i)
   const router=useRouter()
   const [loading , setLoading]=useState(false)
 
@@ -48,9 +48,12 @@ export default function Page({initialData}:any) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Inputs>()
+  } = useForm<Inputs>({
+    defaultValues: initialData, 
+  });
+
  
-  function onSubmit(data:any){
+  async function onSubmit(data:any){
     // if (!data.image || !data.image.startsWith("http")) {
     //   toast({
     //     variant: "destructive",
@@ -64,28 +67,40 @@ export default function Page({initialData}:any) {
     data.image = image;
     
     try {
-      setLoading(true)
-      saveCategory(data)
-      toast({
+      setLoading(true);
+      if (initialData) {
+        // Make update request
+        const { image, title, description } = data;
+        await updateCategory(initialData.id, { image, title, description });
         
-        title: "Dish Category successfully Created",
-        description: "Dish category how successfully created",
-        action: <ToastAction altText="Try again">close</ToastAction>,
-      })
-     router.push("/dashboard/manage-dishes")
-      setLoading(false)
-      reset()
+        toast({
+          title: "Dish Category successfully Updated",
+          description: "Dish category was successfully updated",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+      } else {
+        await saveCategory(data);
+        toast({
+          title: "Dish Category successfully Created",
+          description: "Dish category was successfully created",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+      }
+      router.push("/dashboard/manage-dishes");
+      setLoading(false);
+      reset();
     } catch (error) {
-      console.log(error)
-      setLoading(false)
-      reset()
+      console.log(error);
+      setLoading(false);
+      reset();
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
+      });
     }
+
   }
 
   return (
@@ -111,7 +126,18 @@ export default function Page({initialData}:any) {
                 <Button type="button" variant="outline" size="sm">
                   Discard
                 </Button>
-                <Button type="submit" size="sm">Save category</Button>
+               {
+                loading ? (
+                  <Button variant='outline' disabled={loading}  className="w-full flex gap-2 items-center bg-slate-950 text-white">
+                  <PiSpinner className="animate-spin"/> {initialData ? "Updating":"Saving category"}
+              </Button>
+                ):(
+                  <Button type="submit" size="sm">
+                  {initialData ? "Update category":"Save category"}
+  
+                  </Button>
+                )
+               }
                 {/* {
           loading ? (
         <Button variant='outline' disabled={loading}  className="w-full flex gap-2 items-center bg-slate-950 text-white">
@@ -131,7 +157,7 @@ export default function Page({initialData}:any) {
                   <CardHeader>
                     <CardTitle>Category Details</CardTitle>
                     <CardDescription>
-                      Lipsum dolor sit amet, consectetur adipiscing elit
+                      Insert Category Details which you be used in the due course of the category
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -169,7 +195,7 @@ export default function Page({initialData}:any) {
                   <CardHeader>
                     <CardTitle>Category Images</CardTitle>
                     <CardDescription>
-                      Lipsum dolor sit amet, consectetur adipiscing elit
+                    Upload category image of 1MB
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -206,11 +232,12 @@ export default function Page({initialData}:any) {
               {
           loading ? (
         <Button variant='outline' disabled={loading}  className="w-full flex gap-2 items-center bg-slate-950 text-white">
-           <PiSpinner className="animate-spin"/> Saving category
+           <PiSpinner className="animate-spin"/> {initialData ? "Updating":"Saving category"}
        </Button>
            )  : (
       <Button type="submit" className="w-full">
-       Save category
+       
+       {initialData ? "Update category":"Save category"}
       </Button>
            )
 }

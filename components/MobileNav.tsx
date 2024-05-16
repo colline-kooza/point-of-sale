@@ -59,7 +59,7 @@ export function MobileNav() {
           onOpenChange={setOpen}
         >
           {/* <Icons.logo className="mr-2 h-4 w-4" /> */}
-          <span className="font-bold">Desishub</span>
+          <span className="font-bold">Tasty Point Of Sale</span>
         </MobileLink>
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-1">
           <div className="flex flex-col space-y-3 dark:text-white text-black">

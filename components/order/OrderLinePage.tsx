@@ -3,15 +3,28 @@
     import OrderProducts from '@/components/order/OrderProducts'
     import ProcessCards from '@/components/order/ProcessCards'
     import SubHead from '@/components/order/SubHead'
-    import { Button } from '@/components/ui/button'
     import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
     import { Separator } from '@/components/ui/separator'
     import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
-    import { Coins, Copy, CreditCard, MoreVertical, Mouse, Printer, Scan, Truck } from 'lucide-react'
+    import { AlignJustify, Coins, Copy, CreditCard, ListOrdered, MoreVertical, Mouse, Printer, Scan, Truck } from 'lucide-react'
     import React, { useState } from 'react'
     import CheckOutBar from './CheckOutBar'
-
-    export default function OrderLinePage({categories , dishes, tables}:any) {
+    import Receipt from '../Receipt'
+    import { Button } from "@/components/ui/button"
+    import { Input } from "@/components/ui/input"
+    import { Label } from "@/components/ui/label"
+    import {
+      Sheet,
+      SheetClose,
+      SheetContent,
+      SheetDescription,
+      SheetFooter,
+      SheetHeader,
+      SheetTitle,
+      SheetTrigger,
+    } from "@/components/ui/sheet"
+import { ScrollArea, ScrollBar } from '../ui/scroll-area'
+    export default function OrderLinePage({categories , dishes, tables ,orders}:any) {
       const [selectedCategory, setSelectedCategory] = useState('');
       const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
 
@@ -24,10 +37,27 @@
         : dishes;
       return (
         <div className='w-full min-h-screen flex'>
-        <div className='w-[72%] px-4 py-4 ' >
+          {/* <Receipt/> */}
+        <div className='lg:w-[72%] w-full lg:px-4 md:px-3 px-2 lg:py-4 md:py-3 py-2' >
           <div>
-            <Card className='border-none p-0 shadow-none'>
+            <Card className='border-none p-0 shadow-none flex justify-between items-center'>
               <CardTitle className='text-xl font-bold tracking-wide'>Order Line</CardTitle>               
+        <CardTitle className='text-xl font-bold tracking-wide lg:hidden block'>
+      <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">
+        {/* <button> */}
+          <ListOrdered />
+        {/* <button/> */}
+        </Button>
+      </SheetTrigger>
+      <SheetContent className='!p-1'>
+      <div className='w-[100%] block px-1 py-2'>
+        <CheckOutBar orders={orders} quantities={quantities} dishes={dishes} tables={tables}/>
+          </div>
+      </SheetContent>
+             </Sheet>
+              </CardTitle>               
             </Card>
 
             <div>
@@ -35,7 +65,7 @@
             </div>
 
             <div>
-              <ProcessCards/>
+              <ProcessCards orders={orders}/>
             </div>
 
             <div className='mt-6'>
@@ -56,8 +86,8 @@
           </div>
         </div>
 
-        <div className='w-[30%] dark:bg-black bg-[#f7f8fa] px-1 py-4 flex-grow'>
-        <CheckOutBar quantities={quantities} dishes={dishes} tables={tables}/>
+        <div className='lg:w-[30%] md:hidden hidden lg:block dark:bg-black bg-[#f7f8fa] px-1 py-4 flex-grow'>
+        <CheckOutBar orders={orders} quantities={quantities} dishes={dishes} tables={tables}/>
           </div>
         </div>
       )

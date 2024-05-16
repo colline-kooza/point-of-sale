@@ -9,11 +9,13 @@ import {
   Package,
   Package2,
   PanelLeft,
+  Pencil,
   PlusCircle,
   Search,
   Settings,
   ShoppingCart,
   Soup,
+  Trash2,
   Users2,
 } from "lucide-react"
 
@@ -67,102 +69,109 @@ import {
 } from "@/components/ui/tooltip"
 import { getCategories } from "@/actions/category"
 import { getDishes } from "@/actions/dish"
+import DeleteCategory from "@/components/DeleteCategory"
+import DeleteDish from "@/components/DeleteDish"
+import PageNation from "@/components/PageNation"
+import EditCategory from "@/components/EditeCategory"
+import UpdateDish from "@/components/UpdateDish"
+interface Dish {
+  id: string;
+  title: string;
+  subtitle: string;
+  amount: number;
+  qty: number;
+  description: string | null;
+  images: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  categoryId: string;
+  orderId: string | null;
+}
 
 export default async function Page() {
   const categories= await getCategories()
   const dishes= await getDishes()
   // console.log(dishes)
   // console.log(categories)
+  const calculateItemsCount = (dishes: Dish[], categoryId: string): number => {
+    return dishes.filter((dish) => dish.categoryId === categoryId).length;
+  };
+  
+
   return (
-    <div className="flex min-h-screen w-full bg-muted/40 gap-2">
-      <div className=" lg:w-[30%] min-h-screen relative p-4">
+    <div className="flex lg:flex-row md:flex-row flex-col min-h-screen w-full gap-2  overflow-hidden">
+      <div className="lg:w-[30%] md:w-[35%] w-full md:min-h-screen lg:min-h-screen relative p-4">
       <div>
-      <Card className='border-none p-0 shadow-none'>
-          <CardTitle className='text-xl font-semibold tracking-wide mt-4 bg-[#f9fbfd] dark:bg-[#0d1526]'>Dishes Category</CardTitle>               
+      <Card className='border-none p-0 shadow-none flex justify-between items-center'>
+          <CardTitle className='text-xl font-semibold tracking-wide mt-4'>Dishes Category</CardTitle>    
+
+          <Link className="lg:hidden md:hidden block" href="/dashboard/category-dish/new">
+        <Button size="sm" className="h-10 gap-1 w-full ">
+                  <PlusCircle className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:">
+                    Add New Category
+                  </span>
+                </Button>
+        </Link>           
         </Card>
-        <div className="mt-4 flex flex-col gap-3">
+        <div className="mt-4 gap-3 grid lg:grid-cols-1 md:grid-cols-1 grid-cols-2">
        {
         categories?.map((cat)=>{
+          const itemsCount = calculateItemsCount(dishes, cat.id);
           return(
             <div className="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 cursor-pointer" role="alert">
             <div className="flex px-4 py-2 items-center justify-between">
            <div className="flex gap-1 items-center ">
-           <div className="flex-shrink-0">
+           <div className="flex-shrink-0 ">
                 <img src={cat.image} alt="Square Image" className="w-8 h-8 object-cover rounded-lg" />
               </div>
               <div className="ms-3">
-                <p className="text-sm text-gray-700 dark:text-gray-400">
+                <p className=" text-gray-700 lg:text-sm md:text-sm text-xs dark:text-gray-400 line-clamp-1">
                   {cat.title}
                 </p>
               </div>
             </div>
-               <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-              3
+            <div className="flex items-center gap-2">
+              <DeleteCategory id={cat.id}/>
+                 <Badge className="lg:ml-auto md:ml-auto ml-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                 {itemsCount} 
             </Badge>
+           <EditCategory id={cat.id}/>
+            </div>
             </div>
           </div>
-          
           )
         })
        }
        
-       
-     
-
         </div>
       </div>
-        <div className="absolute bottom-0 left-4 w-[90%] mb-5">
+        <div className="absolute bottom-0 left-4 w-[90%] mb-5 hidden lg:block md:block">
         <Link href="/dashboard/category-dish/new">
         <Button size="sm" className="h-10 gap-1 w-full ">
                   <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  <span className="sr-only sm:not-sr-only sm:">
                     Add New Category
                   </span>
                 </Button>
         </Link>
         </div>
       </div>
-      <div className="flex flex-col w-[70%] mt-5">
+      <div className="flex flex-col lg:w-[70%] md:w-[65%] w-full mt-5">
       
         <main className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8">
           <Tabs defaultValue="all">
-            <div className="flex items-center">
+            <div className="flex items-center justify-between">
               <TabsList>
                 <TabsTrigger value="all">All</TabsTrigger>
                
               </TabsList>
-              <div className="ml-auto flex items-center gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="h-8 gap-1">
-                      <ListFilter className="h-3.5 w-3.5" />
-                      <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                        Filter
-                      </span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuCheckboxItem checked>
-                      Active
-                    </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem>
-                      Archived
-                    </DropdownMenuCheckboxItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <Button size="sm" variant="outline" className="h-8 gap-1">
-                  <File className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Export
-                  </span>
-                </Button>
+              <div className="lg:mr-0 md:mr-5 mr-12 flex items-center gap-2">
+               
                 <Link href="/dashboard/dish/new">
                      <Button size="sm" className="h-8 gap-1">
                   <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  <span className="sr-only sm:not-sr-only sm:">
                     Add New Dish
                   </span>
                 </Button>
@@ -179,16 +188,20 @@ export default async function Page() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Table>
+                  <div>
+                    <Table>
                     <TableHeader>
                       <TableRow>
                         <TableHead className="hidden w-[100px] sm:table-cell">
                           <span className="sr-only">Image</span>
                         </TableHead>
                         <TableHead>Title</TableHead>
-                        <TableHead className="whitespace-nowrap">Sub-Title</TableHead>
-                        <TableHead className="hidden md:table-cell">
+                        <TableHead className="hidden lg:table-cell  md:hidden ">Sub-Title</TableHead>
+                        <TableHead className="md:table-cell">
                           Price
+                        </TableHead>
+                        <TableHead className="hidden lg:table-cell  md:hidden ">
+                          Qty
                         </TableHead>
                       
                    
@@ -212,9 +225,12 @@ export default async function Page() {
       <TableCell className="font-medium whitespace-nowrap">
         {dish.title}
       </TableCell>
-      <TableCell className="whitespace-nowrap">{dish.subtitle}</TableCell>
-      <TableCell className="hidden md:table-cell">
+      <TableCell className="hidden  lg:table-cell md:hidden whitespace-nowrap ">{dish.subtitle}</TableCell>
+      <TableCell className="md:table-cell">
         ${dish.amount.toFixed(2)} 
+      </TableCell>
+      <TableCell className="hidden lg:table-cell  md:hidden ">
+       {dish.qty}
       </TableCell>
       <TableCell>
         <DropdownMenu>
@@ -230,8 +246,12 @@ export default async function Page() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>
+              <UpdateDish id={dish.id}/>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <DeleteDish id={dish.id}/>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
@@ -240,12 +260,11 @@ export default async function Page() {
 </TableBody>
 
                   </Table>
+                  </div>
+                  
                 </CardContent>
                 <CardFooter>
-                  <div className="text-xs text-muted-foreground">
-                    Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-                    dishes
-                  </div>
+                  <PageNation  data={dishes}/>
                 </CardFooter>
               </Card>
             </TabsContent>

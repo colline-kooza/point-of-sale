@@ -41,7 +41,7 @@ import TextInputs from "./Input"
 import TextAreas from "./TextArea"
 import SelectInputs from "./SelectInputs"
 import { UploadButton } from "@/lib/uploadthing"
-import { saveDish } from "@/actions/dish"
+import { saveDish, updateDish } from "@/actions/dish"
 
 
 export default function DishForm({categories,isUpdate, initialData}:any) {
@@ -66,8 +66,33 @@ export default function DishForm({categories,isUpdate, initialData}:any) {
 
         async function onSubmit(data: any) {
           
-            try {
-              setStateLoading(true); 
+          try {
+            setStateLoading(true);
+            if (initialData) {
+              // Parse amount and stock to integers
+              const amount = parseInt(data.amount);
+              const qty = parseInt(data.qty);
+              const dishData = {
+                ...data,
+                amount,
+                qty,
+                images: imageUrls, 
+              };
+          
+              const { title, subtitle,description, images } = dishData;
+              const updatedDishData = { title, subtitle, amount, qty, description,   images };
+              await updateDish(initialData.id, updatedDishData);
+
+          
+              toast({
+                title: "Dish Updated Successfully",
+                description: "Dish was updated successfully",
+                action: <ToastAction altText="Close">Close</ToastAction>,
+              });
+              reset();
+              setStateLoading(false);
+              router.push("/dashboard/manage-dishes");
+            } else {
               if (imageUrls) {
                 // Parse amount and stock to integers
                 const amount = parseInt(data.amount);
@@ -76,41 +101,41 @@ export default function DishForm({categories,isUpdate, initialData}:any) {
                   ...data,
                   amount,
                   qty,
-                  images:imageUrls,
+                  images: imageUrls,
                 };
           
-                // console.log(dishData);
-                await saveDish(dishData);
+                await saveDish(dishData); 
           
                 toast({
-                  title: "Dish Created Successful",
-                  description: "Dish was Created successfully",
-                  action: <ToastAction altText="upload images">close</ToastAction>,
+                  title: "Dish Created Successfully",
+                  description: "Dish was created successfully",
+                  action: <ToastAction altText="Close">Close</ToastAction>,
                 });
-                reset()
+                reset();
                 setStateLoading(false);
-                router.push("/dashboard/manage-dishes")
+                router.push("/dashboard/manage-dishes");
               } else {
                 toast({
                   variant: "destructive",
-                  title: "Upload dish images",
-                  description: "Dish won't be created without the dish images",
-                  action: <ToastAction altText="upload images">close</ToastAction>,
+                  title: "Upload Dish Images",
+                  description: "Dish won't be created without dish images",
+                  action: <ToastAction altText="Upload Images">Close</ToastAction>,
                 });
                 setStateLoading(false);
-                reset()
-
+                reset();
               }
-            } catch (error) {
-                setStateLoading(false)
-              console.log(error);
-              toast({
-                variant: "destructive",
-                title: "Something Wrong Happened",
-                description: "Request failed, something wrong happened",
-                action: <ToastAction altText="upload images">close</ToastAction>,
-              });
             }
+          } catch (error) {
+            setStateLoading(false);
+            console.log(error);
+            toast({
+              variant: "destructive",
+              title: "Something Went Wrong",
+              description: "Request failed, something went wrong",
+              action: <ToastAction altText="Close">Close</ToastAction>,
+            });
+          }
+          
           }
           
   return (
@@ -119,10 +144,10 @@ export default function DishForm({categories,isUpdate, initialData}:any) {
         <form onSubmit={handleSubmit(onSubmit)}  className="grid flex-1 items-start gap-4  sm:py-0 md:gap-8">
           <div className="mx-auto grid max-w-full flex-1 auto-rows-max gap-4">
             <div className="flex items-center gap-4">
-              <Button variant="outline" size="icon" className="h-7 w-7">
+              <Link href="/dashboard/manage-dishes"  className="h-7 w-7">
                 <ChevronLeft className="h-4 w-4" />
-                <Link href="/dashboard/manage-dishes" className="sr-only">Back</Link>
-              </Button>
+                <div className="sr-only">Back</div>
+              </Link>
               <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                Create Dish
               </h1>
@@ -168,7 +193,7 @@ export default function DishForm({categories,isUpdate, initialData}:any) {
                   <CardHeader>
                     <CardTitle>Stock</CardTitle>
                     <CardDescription>
-                      Lipsum dolor sit amet, consectetur adipiscing elit
+                     Insert Dish price and  Dish quantity
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -176,7 +201,7 @@ export default function DishForm({categories,isUpdate, initialData}:any) {
         <TableHeader>
           <TableRow>
             <TableHead>Quantity</TableHead>
-            <TableHead className="w-[200px]">Selling Price</TableHead>
+            <TableHead className="w-[200px]">Price</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -333,11 +358,11 @@ export default function DishForm({categories,isUpdate, initialData}:any) {
           {
           stateLoading ? (
         <Button variant='outline' disabled={stateLoading}  className="w-full flex gap-2 items-center bg-slate-950 text-white">
-           <PiSpinner className="animate-spin"/> Creating Dish
+           <PiSpinner className="animate-spin"/> {initialData  ? "Updating":" Creating Dish"}
        </Button>
            )  : (
       <Button type="submit" className="w-full">
-       Save Dish
+       {initialData ? "Update Dish":"Save Dish"}
       </Button>
            )
 }

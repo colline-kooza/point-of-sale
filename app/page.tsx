@@ -25,11 +25,11 @@ export default function Page() {
           className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-8 py-4 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
           href="/contact"
         >
-          Get Started
+          Contact us
         </Link>
         <Link
           className="inline-flex h-9 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 py-5 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-          href="/dashboard"
+          href="/dashboard/order-line"
         >
          Demo Account
         </Link>
@@ -64,7 +64,7 @@ export default function Page() {
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link
                     className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-                    href="#"
+                    href="/contact"
                   >
                     Contact Sales
                   </Link>
@@ -84,7 +84,7 @@ export default function Page() {
 
 
         
-        <div className="w-full dark:bg-gray-950 bg-gray-200 py-20  bg">
+    <div className="w-full dark:bg-gray-950 bg-gray-200 py-20  bg">
       <div className="container grid items-center gap-10 px-4 text-center md:px-6">
         <div className="space-y-3">
           <h2 className="text-3xl font-bold tracking-normal lg:tracking-normal sm:text-4xl md:text-4xl">Choose perfect plan</h2>
@@ -118,9 +118,15 @@ export default function Page() {
                   <span className="ml-2 line-clamp-1">Up to 5 team members</span>
                 </li>
               </ul>
-              <Button size="sm" variant="outline">
+
+                <Button size="sm" variant="outline">
+                <Link href="/dashboard/order-line">
+
                 Choose Plan
-              </Button>
+                </Link>
+              </Button> 
+            
+             
             </div>
           </div>
           <div className="flex flex-col rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden dark:border-gray-800 dark:bg-gray-950">
@@ -148,9 +154,12 @@ export default function Page() {
                   <span className="ml-2 line-clamp-1">Unlimited team members</span>
                 </li>
               </ul>
-              <Button size="sm" variant="outline">
+                <Button size="sm" variant="outline">
+              <Link href="/contact">
                 Choose Plan
+              </Link>
               </Button>
+            
             </div>
           </div>
           <div className="flex flex-col rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden dark:border-gray-800 dark:bg-gray-950">
@@ -178,8 +187,11 @@ export default function Page() {
                   <span className="ml-2 line-clamp-1">SSO and advanced security</span>
                 </li>
               </ul>
+
               <Button size="sm" variant="outline">
+              <Link href="/contact">
                 Choose Plan
+              </Link>
               </Button>
             </div>
           </div>

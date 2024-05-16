@@ -1,61 +1,43 @@
 "use client"
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-const data = [
-  {
-    name: "Jan",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Feb",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Mar",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Apr",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "May",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jun",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jul",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Aug",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Sep",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Oct",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Dec",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-]
+interface Order {
+  id: string;
+  total: number;
+  orderId: string;
+  status: string;
+  paymentMethod: string;
+  createdAt: string;
+}
 
-export function Overview() {
+export function Overview({ orders }: { orders: Order[] }) {
+  const monthlyTotals: { [key: string]: number } = {};
+
+  orders.forEach((order) => {
+    const date = new Date(order.createdAt);
+    const month = date.toLocaleString('default', { month: 'short' });
+    if (!monthlyTotals[month]) {
+      monthlyTotals[month] = order.total;
+    } else {
+      monthlyTotals[month] += order.total;
+    }
+  });
+
+  const data = Object.keys(monthlyTotals).map((month) => ({
+    name: month,
+    total: monthlyTotals[month],
+  }));
+
+  let containerWidth = "30%";
+  if (data.length >= 3) {
+    containerWidth = "100%";
+  } else if (data.length < 3) {
+    containerWidth = "40%";
+  }
+
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ResponsiveContainer width={containerWidth} height={350}>
       <BarChart data={data}>
         <XAxis
           dataKey="name"
@@ -79,5 +61,5 @@ export function Overview() {
         />
       </BarChart>
     </ResponsiveContainer>
-  )
+  );
 }
